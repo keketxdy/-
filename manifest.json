@@ -1,0 +1,11 @@
+{
+  "display_name": "RPG 状态面板",
+  "name": "rpg-status-panel",
+  "version": "1.1.0",
+  "author": "Trae Worldbook Creator",
+  "description": "左侧常驻RPG状态面板，从AI回复中提取RPGSTATS数据并显示。支持属性、战斗、货币、装备、特性、状态、好感度、物品、任务、探索进度、成就。适配TauriTavern。",
+  "auto_update": false,
+  "requires": [],
+  "load_after": [],
+  "system_roles": ["user", "assistant", "system"]
+}

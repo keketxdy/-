@@ -1,0 +1,522 @@
+/* ==========================================================================
+   RPG 状态面板 - 样式表
+   ========================================================================== */
+
+:root {
+  --rpg-primary: #e94560;
+  --rpg-secondary: #16213e;
+  --rpg-bg: #0f0f23;
+  --rpg-accent: #00d9ff;
+  --rpg-text: #e0e0e0;
+  --rpg-text-dim: #888;
+  --rpg-border: #333;
+}
+
+/* ---- 面板容器 ---- */
+#rpg-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: var(--rpg-bg);
+  color: var(--rpg-text);
+  font-family: 'Microsoft YaHei', '微软雅黑', sans-serif;
+  font-size: 12px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px solid var(--rpg-primary);
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* 如果SillyTavern有侧边栏，调整位置 */
+body.sillytavern #rpg-panel {
+  left: 60px; /* 给左侧导航栏留位置 */
+}
+
+.rpg-loading {
+  padding: 20px;
+  text-align: center;
+  color: var(--rpg-text-dim);
+}
+
+/* ---- 顶部标题栏 ---- */
+.rpg-header {
+  padding: 12px 14px;
+  background: linear-gradient(135deg, var(--rpg-secondary), var(--rpg-bg));
+  border-bottom: 1px solid var(--rpg-border);
+  flex-shrink: 0;
+}
+
+.rpg-header-left { margin-bottom: 6px; }
+
+.rpg-char-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--rpg-primary);
+  text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+}
+
+.rpg-char-sub {
+  font-size: 11px;
+  color: var(--rpg-text-dim);
+  margin-top: 2px;
+}
+
+.rpg-header-right {
+  font-size: 11px;
+  color: var(--rpg-text-dim);
+  line-height: 1.6;
+}
+
+.rpg-location, .rpg-time { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---- 内容区 ---- */
+.rpg-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.rpg-content::-webkit-scrollbar { width: 4px; }
+.rpg-content::-webkit-scrollbar-track { background: var(--rpg-bg); }
+.rpg-content::-webkit-scrollbar-thumb { background: var(--rpg-primary); border-radius: 2px; }
+
+.rpg-content.rpg-collapsed { display: none; }
+
+/* ---- 区块 ---- */
+.rpg-section {
+  margin-bottom: 2px;
+}
+
+.rpg-section-header {
+  padding: 8px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid var(--rpg-border);
+  border-bottom: 1px solid var(--rpg-border);
+  transition: background 0.2s;
+}
+
+.rpg-section-header:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.rpg-section-toggle {
+  font-size: 10px;
+  color: var(--rpg-text-dim);
+  width: 12px;
+}
+
+.rpg-section-title {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--rpg-primary);
+  letter-spacing: 1px;
+}
+
+.rpg-section-body {
+  padding: 8px 14px;
+  overflow: hidden;
+  transition: max-height 0.3s;
+}
+
+.rpg-section-closed .rpg-section-body {
+  display: none;
+}
+
+/* ---- 进度条通用 ---- */
+.rpg-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  min-width: 40px;
+}
+
+.rpg-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rpg-primary), var(--rpg-accent));
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+/* ---- 核心属性 ---- */
+.rpg-stats-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rpg-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rpg-stat-label {
+  width: 55px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.rpg-stat-icon { font-size: 12px; }
+
+.rpg-stat-num {
+  width: 55px;
+  text-align: right;
+  font-size: 10px;
+  color: var(--rpg-text-dim);
+  flex-shrink: 0;
+  font-family: monospace;
+}
+
+/* ---- 战斗属性 ---- */
+.rpg-battle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.rpg-battle-cell {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--rpg-border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.rpg-battle-icon { font-size: 14px; display: block; }
+
+.rpg-battle-name {
+  font-size: 10px;
+  color: var(--rpg-text-dim);
+  display: block;
+  margin: 2px 0;
+}
+
+.rpg-battle-val {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--rpg-accent);
+  display: block;
+  font-family: monospace;
+}
+
+/* ---- 货币 ---- */
+.rpg-currency {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rpg-currency-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+}
+
+.rpg-currency-name { font-size: 11px; color: var(--rpg-text-dim); }
+
+.rpg-currency-val {
+  font-weight: bold;
+  font-family: monospace;
+  color: #ffd700;
+}
+
+.rpg-currency-special .rpg-currency-val {
+  color: var(--rpg-accent);
+}
+
+/* ---- 特性天赋 ---- */
+.rpg-traits {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rpg-trait {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: help;
+}
+
+.rpg-trait-common .rpg-trait-icon { color: #888; }
+.rpg-trait-rare { border-left: 2px solid #4a9eff; }
+.rpg-trait-rare .rpg-trait-icon { color: #4a9eff; }
+.rpg-trait-unique { border-left: 2px solid #ffd700; background: rgba(255, 215, 0, 0.05); }
+.rpg-trait-unique .rpg-trait-icon { color: #ffd700; }
+.rpg-trait-name { font-size: 11px; }
+
+/* ---- 装备 ---- */
+.rpg-equip-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.rpg-equip-cell {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--rpg-border);
+  border-radius: 4px;
+  padding: 6px;
+  text-align: center;
+}
+
+.rpg-equip-icon { font-size: 18px; margin-bottom: 2px; }
+
+.rpg-equip-slot {
+  font-size: 9px;
+  color: var(--rpg-text-dim);
+  margin-bottom: 2px;
+}
+
+.rpg-equip-name {
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--rpg-primary);
+}
+
+/* ---- 状态 ---- */
+.rpg-status-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.rpg-status-item {
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+}
+
+.rpg-status-buff { background: rgba(0, 255, 100, 0.15); color: #00ff64; border: 1px solid rgba(0, 255, 100, 0.3); }
+.rpg-status-debuff { background: rgba(255, 80, 80, 0.15); color: #ff5050; border: 1px solid rgba(255, 80, 80, 0.3); }
+.rpg-status-special { background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.3); }
+
+/* ---- 好感度 ---- */
+.rpg-affection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rpg-affection-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rpg-affection-name {
+  width: 60px;
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rpg-affection-bar { flex: 1; }
+
+.rpg-affection-fill {
+  background: linear-gradient(90deg, #ff6b9d, #ff4757);
+}
+
+.rpg-affection-level {
+  width: 30px;
+  text-align: right;
+  font-size: 10px;
+  color: #ff6b9d;
+  flex-shrink: 0;
+  font-family: monospace;
+}
+
+/* ---- 物品栏 ---- */
+.rpg-inv-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.rpg-inv-cell {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--rpg-border);
+  border-radius: 4px;
+  padding: 4px 2px;
+  text-align: center;
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.rpg-inv-icon { font-size: 16px; line-height: 1; }
+
+.rpg-inv-name {
+  font-size: 9px;
+  color: var(--rpg-text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.rpg-inv-count {
+  position: absolute;
+  bottom: 1px;
+  right: 3px;
+  font-size: 9px;
+  color: var(--rpg-accent);
+  font-weight: bold;
+  font-family: monospace;
+}
+
+/* ---- 任务 ---- */
+.rpg-quest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rpg-quest-type-title {
+  font-size: 10px;
+  color: var(--rpg-text-dim);
+  margin-bottom: 3px;
+}
+
+.rpg-quest-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.rpg-quest-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.rpg-quest-progress {
+  font-size: 10px;
+  color: var(--rpg-accent);
+  margin-left: 6px;
+  flex-shrink: 0;
+  font-family: monospace;
+}
+
+/* ---- 探索进度 ---- */
+.rpg-explore-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rpg-explore-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rpg-explore-name {
+  width: 60px;
+  font-size: 11px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rpg-explore-bar { flex: 1; }
+
+.rpg-explore-fill {
+  background: linear-gradient(90deg, #5eb14e, #00d9ff);
+}
+
+.rpg-explore-pct {
+  width: 35px;
+  text-align: right;
+  font-size: 10px;
+  color: var(--rpg-text-dim);
+  flex-shrink: 0;
+  font-family: monospace;
+}
+
+/* ---- 成就 ---- */
+.rpg-achievements {
+  text-align: center;
+}
+
+.rpg-achievement-count {
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffd700;
+  margin-bottom: 6px;
+  font-family: monospace;
+}
+
+.rpg-achievement-fill {
+  background: linear-gradient(90deg, #ffd700, #ff8c00);
+}
+
+/* ---- 底部工具栏 ---- */
+.rpg-footer {
+  padding: 6px 10px;
+  border-top: 1px solid var(--rpg-border);
+  background: var(--rpg-secondary);
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rpg-btn {
+  background: transparent;
+  border: 1px solid var(--rpg-border);
+  color: var(--rpg-text-dim);
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 0.2s;
+}
+
+.rpg-btn:hover {
+  border-color: var(--rpg-primary);
+  color: var(--rpg-primary);
+}
+
+/* ---- 响应式：小屏幕 ---- */
+@media (max-width: 800px) {
+  #rpg-panel {
+    width: 220px;
+    font-size: 11px;
+  }
+  .rpg-inv-grid { grid-template-columns: repeat(3, 1fr); }
+}
